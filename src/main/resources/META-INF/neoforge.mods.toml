@@ -1,0 +1,50 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "All Rights Reserved"
+
+[[mods]]
+modId = "tensura_colony_gear"
+version = "1.0.0"
+displayName = "Tensura Colony Gear"
+authors = "kurok"
+description = '''
+Folds Tensura: Reincarnated gear into MineColonies' citizen weapon/tool/armor
+ladder using only MineColonies' public registration API (no mixins):
+
+- Compact vanilla ladder: wood/gold/stone = level 1, iron/diamond = 2,
+  netherite = 3.
+- Tensura tools and blades: silver/low_magisteel = 2, high_magisteel/
+  mithril/orichalcum = 3, pure_magisteel/adamantite = 4, hihiirokane = 5.
+- Tensura armor needs no registration: MineColonies derives its level from
+  the armor points, which already grades the sets sensibly.
+- Multitools get a level and are recognized as custom weapons for
+  MineColonies' equipment-type checks.
+'''
+
+[[dependencies.tensura_colony_gear]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.tensura_colony_gear]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.1,1.21.2)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.tensura_colony_gear]]
+modId = "minecolonies"
+type = "required"
+versionRange = "[1.1,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.tensura_colony_gear]]
+modId = "tensura"
+type = "optional"
+versionRange = "[2.0,)"
+ordering = "AFTER"
+side = "BOTH"
