@@ -17,7 +17,7 @@ mixins, no access transformers, no crafter recipes.
 **Gotchas**
 - **No mixins, ever.** This is a public-API addon; if something cannot be done through
   MineColonies' public API, it is out of scope — do not add a mixin.
-- The ladder maps per-item colony level to `maxEquipmentLevel` = building level − 1
+- The ladder maps per-item colony level to `maxEquipmentLevel` = building level - 1
   (unbounded at max building level).
 - **Armor is deliberately not registered** — MineColonies derives armor levels from
   armor points; there is no public override.
@@ -82,6 +82,7 @@ Before starting any new development in this repo:
 ## House style
 
 - **No icons** unless the user explicitly asks. Icons are being removed across all repos.
+- **No emojis, ever.** Prohibited in all code, docs, configs, and commit messages.
 - READMEs are **player-facing only**: pitch, mechanics in plain terms, in-game usage,
   required/optional dependencies, credits, license. No build internals, no class names.
 - All repos are **LGPL v2.1**, copyright Bitwise Madness. `NOTICE` / attribution files
