@@ -1,4 +1,4 @@
-﻿# Agent rules and conventions â€” Tensura Colony Gear
+# Agent rules and conventions â€” Tensura Colony Gear
 
 **Repo:** `HexaHexes/tensura-colony-gear` Â· **Mod ID:** `tensura_colony_gear` Â· **Branch:** `master`
 **Platform:** Minecraft 1.21.1 / NeoForge 21.1.259 / JDK 21 Â· **Jar:** `build/libs/tensura-colony-gear-<version>.jar`
