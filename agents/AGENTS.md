@@ -1,10 +1,10 @@
-# Agent rules and conventions â€” Tensura Colony Gear
+# Agent rules and conventions — Tensura Colony Gear
 
-**Repo:** `HexaHexes/tensura-colony-gear` Â· **Mod ID:** `tensura_colony_gear` Â· **Branch:** `master`
-**Platform:** Minecraft 1.21.1 / NeoForge 21.1.259 / JDK 21 Â· **Jar:** `build/libs/tensura-colony-gear-<version>.jar`
+**Repo:** `HexaHexes/tensura-colony-gear` · **Mod ID:** `tensura_colony_gear` · **Branch:** `master`
+**Platform:** Minecraft 1.21.1 / NeoForge 21.1.259 / JDK 21 · **Jar:** `build/libs/tensura-colony-gear-<version>.jar`
 
 Folds Tensura: Reincarnated gear into MineColonies' citizen weapon/tool ladder using
-only MineColonies' **public registration API** (`Compatibility.registerItemTier`) â€” no
+only MineColonies' **public registration API** (`Compatibility.registerItemTier`) — no
 mixins, no access transformers, no crafter recipes.
 
 **Dependencies**
@@ -12,14 +12,14 @@ mixins, no access transformers, no crafter recipes.
 - Tensura (`tensura`) is the gear source; the ladder keys off tier enum names and
   registry paths, so it stays valid across Tensura updates without recompiling.
 
-**Test:** `./gradlew runGametest` â€” 4 registry-driven gametests. `expectedTests = 4`.
+**Test:** `./gradlew runGametest` — 4 registry-driven gametests. `expectedTests = 4`.
 
 **Gotchas**
 - **No mixins, ever.** This is a public-API addon; if something cannot be done through
-  MineColonies' public API, it is out of scope â€” do not add a mixin.
-- The ladder maps per-item colony level to `maxEquipmentLevel` = building level âˆ’ 1
+  MineColonies' public API, it is out of scope — do not add a mixin.
+- The ladder maps per-item colony level to `maxEquipmentLevel` = building level − 1
   (unbounded at max building level).
-- **Armor is deliberately not registered** â€” MineColonies derives armor levels from
+- **Armor is deliberately not registered** — MineColonies derives armor levels from
   armor points; there is no public override.
 - Multitools are recognized reflectively via `Compatibility.registerWeaponRecognizer`;
   Tensura 2.0.1.3 registers none, but the recognizer is forward-compatible.
@@ -32,8 +32,8 @@ mixins, no access transformers, no crafter recipes.
 
 Before starting any new development in this repo:
 
-1. `git status` â€” confirm what uncommitted work exists. Never disturb or sweep it.
-2. `git pull --ff-only` â€” sync with the remote. A fast-forward is the normal case,
+1. `git status` — confirm what uncommitted work exists. Never disturb or sweep it.
+2. `git pull --ff-only` — sync with the remote. A fast-forward is the normal case,
    because we push straight to the shared branch.
 3. If the pull would **not** fast-forward (the branch has diverged), or if it would
    collide with local uncommitted work, **stop and ask** rather than merging, rebasing
@@ -42,17 +42,19 @@ Before starting any new development in this repo:
 ## Scope doctrine
 
 - **One mod + bundled datapack.** No KubeJS scripts.
-- **Data-driven over code** â€” prefer JSON/datapack content to Java when both work.
+- **Data-driven over code** — prefer JSON/datapack content to Java when both work.
 - **Public API only, no mixins** in the colony-gear-style addon mods. Sanctioned
   exception: `ds-tensura-fix` (tensura-dragon-skin-rebalance), a mixin fix mod by design.
 
 ## Verification
 
-- The in-repo GameTest run is the **only** CI gate. Never verify against a live
+- Verify with the in-repo GameTest run (`./gradlew runGametest`, or `runGameTestServer`).
+  Repos without GameTests verify with `./gradlew build`. Never verify against a live
   CurseForge instance.
 - Keep `expectedTests` in `build.gradle` in sync with the `@GameTest` methods.
 - **Client-render features cannot be proven headless.** The honest scope is
-  "build green + the user's in-game check" â€” say so rather than overclaiming.
+  "build green + the user's in-game check" - say so rather than overclaiming.
+
 
 ## Build environment
 
@@ -65,16 +67,16 @@ Before starting any new development in this repo:
 
 ## PowerShell quirks (this org is developed on Windows)
 
-- A `git push` "error" in PowerShell is usually stderr passthrough â€” success is the
+- A `git push` "error" in PowerShell is usually stderr passthrough — success is the
   `hash..hash  branch -> branch` line, not the absence of red text.
-- `New-Object Type(args)` breaks on arithmetic â€” use `::new()` or a parenthesized
+- `New-Object Type(args)` breaks on arithmetic — use `::new()` or a parenthesized
   argument.
 
 ## Git & release
 
 - Remote is SSH: `git@github.com:HexaHexes/<name>.git`.
 - Push only after tests are green **and** the user has given the go.
-- Never sweep the user's uncommitted work into a commit â€” commit only what is intended.
+- Never sweep the user's uncommitted work into a commit — commit only what is intended.
 - Commit subjects: concise, imperative.
 
 ## House style
@@ -88,15 +90,21 @@ Before starting any new development in this repo:
 
 ## CI & release model
 
-- `ci.yml` runs on pull requests: a build job and a GameTest job. Both assert a
-  non-zero result â€” a run that passes vacuously (0 tests) is a failure.
-- `release.yml` runs on every push to the default branch, re-runs the tests, and â€” only
-  when the version was bumped â€” tags and publishes a GitHub release with a cumulative
-  changelog. Alpha/nightly publishing is opt-in via the `ALPHA_RELEASES` repo variable
-  and is **off** by default.
+- `ci.yml` currently enforces the **version-bump guard only**: a beta or stable bump must
+  change the version file and nothing else; an `-alpha` bump may bundle work; a PR labelled
+  `breaking` forces the next clean bump to raise the major or minor version.
+- **Build and GameTest jobs are deferred.** Some dependencies (ManasCore's jar-in-jar
+  sub-modules, plus a few pack mods) are not resolvable from a clean checkout via
+  CurseMaven alone, so compiling in CI would fail every run. They land once a jar-fetch
+  step exists. Until then, run `./gradlew build` and the GameTest task locally before
+  pushing.
+- `release.yml` is **not yet enabled for the gradle mod repos** - it needs a CI-built jar
+  to attach. The datapack repo is the exception: its "build" is a zip, so it has a working
+  `release.yml` that tags and publishes on a version bump.
 - `version-bump.yml` opens an isolated version-bump PR (only the version file changes).
-  Beta/stable bumps must not carry other changes; `-alpha` bumps may bundle work.
 - CurseForge publishing (`curseforge.yml`) is **deferred** until a mod has a CurseForge
   listing and the `CURSEFORGE_PROJECT_ID` / `CURSEFORGE_API_KEY` secrets. Do not add it
   speculatively.
+- Where a release workflow exists, alpha/nightly publishing is opt-in via the
+  `ALPHA_RELEASES` repo variable and is **off** by default.
 
