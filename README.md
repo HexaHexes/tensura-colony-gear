@@ -1,61 +1,51 @@
 # Tensura Colony Gear
 
-Folds **Tensura: Reincarnated** gear into **MineColonies'** citizen weapon/tool
-ladder using only MineColonies' public registration API - no mixins, no access
-transformers, no crafter recipes. Guards and workers can wear and wield Tensura
-gear on MineColonies' building-level progression.
+Lets your **MineColonies** citizens wear and wield Tensura: Reincarnated gear, gated by
+building level the same way MineColonies gates its own equipment. Guards and workers can
+equip Tensura blades and tools once the building is high enough.
 
-## The ladder
+## How it works
 
-MineColonies gates citizen equipment by a per-item colony level: a citizen can
-use gear whose level is `<= maxEquipmentLevel`, where `maxEquipmentLevel` is the
-building's level minus one (unbounded once the building is at its max level).
+MineColonies gates citizen equipment by a per-item level: a citizen can use gear whose
+level is at most one below their building's level (and anything at the building's max
+level). This mod registers Tensura's gear onto that ladder:
 
-Tools and weapons registered by this mod:
+| Level | Vanilla (compacted) | Tensura: Reincarnated |
+|-------|--------------------|-----------------------|
+| 1 | wood, gold, stone | — |
+| 2 | iron, diamond | silver, low magisteel |
+| 3 | netherite | high magisteel, mithril, orichalcum |
+| 4 | — | pure magisteel, adamantite |
+| 5 | — | hihiirokane |
 
-| level | vanilla (compacted)             | Tensura: Reincarnated                                  |
-|-------|---------------------------------|--------------------------------------------------------|
-| 1     | wood, gold, stone               | -                                                      |
-| 2     | iron, diamond                   | silver, low_magisteel                                  |
-| 3     | netherite                       | high_magisteel, mithril, orichalcum                    |
-| 4     | -                               | pure_magisteel, adamantite                             |
-| 5     | -                               | hihiirokane                                            |
+- **Blades** — katanas, greatswords, spears, scythes and sickles — are recognised as
+  weapons automatically and take their level from the table above.
+- **Shields, bows, crossbows and kunai** get their level from their material name.
+- **Armor is not touched** — MineColonies already grades armor sensibly from its own
+  defense values (silver near iron, low magisteel near diamond, heavier sets at the top),
+  so Tensura armor works without this mod listing it.
+- **Multitools** are picked up automatically in Tensura versions that register them.
 
-Tensura blades (katanas, greatswords, spears, scythes, sickles) extend the
-vanilla `SwordItem`/`DiggerItem` hierarchy, so MineColonies already recognizes
-them as weapons; this mod supplies their levels. Shields, bows, crossbows and
-kunai get their levels from a material-fragment fallback on the registry path.
+This is the mod that owns the shared *vanino* compaction (wood/gold/stone at 1, iron/
+diamond at 2, netherite at 3) so it doesn't clash with the Ice and Fire gear mod.
 
-**Armor is deliberately not registered.** MineColonies derives armor levels from
-each piece's armor points against the vanilla per-slot distributions, and there
-is no public override. Tensura's sets already grade sensibly that way (silver
-near iron, low_magisteel near diamond, heavier sets at the top grade).
+## Getting it in-game
 
-Multitools: Tensura 2.0.1.3 ships the `MultitoolItem` class but registers no
-items of it. The mod nevertheless recognizes multitools as custom weapons via
-`Compatibility.registerWeaponRecognizer` and reads their tier reflectively, so
-they pick up the ladder automatically in Tensura versions that do register them.
+Nothing to configure — equip a colonist from their building's equipment screen and
+Tensura gear appears wherever MineColonies already lists usable gear, once the building
+level allows it.
 
-## Building
+## Dependencies
 
-```bat
-set JAVA_HOME=C:\Program Files\Java\jdk-21
-gradle build
-```
+| | Mod | Why |
+|---|---|---|
+| **Required** | [MineColonies](https://www.curseforge.com/minecraft/mc-mods/minecolonies) | The citizen equipment system |
+| Works with | Tensura: Reincarnated | The gear being added |
 
-Compile-time dependency: MineColonies' public API (`libs/`, gitignored). The
-gametest run stages `testmods/` (gitignored) into `run/mods/` exactly like the
-real mod pack, so `gradle runGametest` verifies the ladder against the actual
-Tensura and MineColonies builds:
-
-```bat
-gradle runGametest
-```
-
-Four registry-driven gametests verify the vanilla compaction, every Tensura
-tool tier, the name-based fallback (and that MineColonies never overwrites our
-registrations at runtime), and multitool handling.
+Made for the **Tensura RPG** pack (Minecraft 1.21.1, NeoForge). Works alongside
+[Ice and Fire Colony Gear](https://github.com/HexaHexes/iceandfire-colony-gear).
 
 ## License
 
-All Rights Reserved.
+GNU Lesser General Public License v2.1 — see [`LICENSE`](LICENSE).
+Copyright (c) 2026 Bitwise Madness.
