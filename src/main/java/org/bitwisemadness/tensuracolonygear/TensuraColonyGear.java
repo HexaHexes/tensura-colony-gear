@@ -1,6 +1,6 @@
-package dev.kurok.mods.tensuracolonygear;
+package org.bitwisemadness.tensuracolonygear;
 
-import dev.kurok.mods.tensuracolonygear.gear.GearLevelRegistry;
+import org.bitwisemadness.tensuracolonygear.gear.GearLevelRegistry;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;

@@ -1,7 +1,7 @@
-package dev.kurok.mods.tensuracolonygear.gametest;
+package org.bitwisemadness.tensuracolonygear.gametest;
 
 import com.minecolonies.api.compatibility.Compatibility;
-import dev.kurok.mods.tensuracolonygear.gear.GearLevelRegistry;
+import org.bitwisemadness.tensuracolonygear.gear.GearLevelRegistry;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import net.minecraft.core.registries.BuiltInRegistries;

@@ -1,4 +1,4 @@
-package dev.kurok.mods.tensuracolonygear.gear;
+package org.bitwisemadness.tensuracolonygear.gear;
 
 import com.minecolonies.api.compatibility.Compatibility;
 import java.lang.reflect.Method;
